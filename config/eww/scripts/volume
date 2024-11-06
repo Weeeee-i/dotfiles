@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# 获取音量信息
+volume_info=$(amixer get Master)
+mute_status=$(echo "$volume_info" | grep -o '\[off\]')
+
+# 检查静音状态
+if [ ! -z "$mute_status" ]; then
+  echo "MUTED"
+else
+  # 提取左右声道的音量百分比
+  left_volume=$(echo "$volume_info" | grep -o -m 1 '[0-9]*%' | head -n 1)
+  right_volume=$(echo "$volume_info" | grep -o -m 1 '[0-9]*%' | tail -n 1)
+
+  # 计算平均音量
+  left_volume_value=${left_volume%\%}
+  right_volume_value=${right_volume%\%}
+  average_volume=$(( (left_volume_value + right_volume_value) / 2 ))
+
+  echo "VOL: ${average_volume}%"
+fi

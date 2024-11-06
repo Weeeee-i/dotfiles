@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# 获取网络接口名称，通常是 'eth0'、'wlan0' 或 'en0' 等
+interface=$(ip -o -4 route show to default | awk '{print $5}')
+
+# 使用 `vnstat` 获取网络流量
+if command -v vnstat &> /dev/null; then
+    # 获取最近的上传和下载速度
+    speed_info=$(vnstat --oneline | grep "$interface" | awk -F';' '{print "Download: " $9 " | Upload: " $10}')
+    echo "$speed_info"
+else
+    echo "vnstat is not installed. Please install it to use this script."
+fi

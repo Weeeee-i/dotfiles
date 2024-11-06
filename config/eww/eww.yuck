@@ -1,0 +1,66 @@
+
+; 状态栏
+(defwindow status_bar
+  :monitor 0
+  :geometry (geometry :x "0px"
+					  :y "0px"
+					  :width "100%"
+					  :height "28px"
+					  :anchor "top center")
+  :stacking "overlay"
+  :exclusive true
+  (topbar)
+)
+
+; 左右两端的空格
+(defvar space "    ")
+
+
+; 顶部状态栏
+(defwidget topbar []
+		(centerbox :orrientation "h"
+				(left_box)
+				(mid_box)
+				(right_box)))
+
+; 顶部状态栏（左侧）
+(defwidget left_box []
+		(box 	:spacing 5
+			space))
+
+; 顶部状态栏（中间）
+(defwidget mid_box []
+		(box 	:spacing 10
+			date time))
+
+; 顶部状态栏（右侧）
+(defwidget right_box []
+		(box 	:spacing 20
+			:halign "end"
+			:space-evenly false
+			"MEM: ${round(EWW_RAM.used_mem / 1024 / 1024, 0)}M"
+            "CPU: ${round(EWW_CPU.avg, 2)}"
+            ; "NET: ${round(EWW_NET.wlo1.NET_UP, 2)}/${round(EWW_NET.wlo1.NET_DOWN, 2)}"
+            "BL: ${round(backlight, 0)}%"
+            volume
+            "${EWW_BATTERY.BAT0.status}: ${EWW_BATTERY.BAT0.capacity}%" 
+            space))
+
+; 时间
+(defpoll time	:interval "1s"
+		:initial "initial-value"
+		:run-while "whatever"
+		`date +%H:%M:%S`)
+
+; 日期
+(defpoll date	:interval "1h"
+		"date +%Y/%m/%d")
+
+; 背光
+(defpoll backlight	:interval "1s"
+			"light")
+
+; 音量
+(defpoll volume :interval "1s"
+			"./scripts/volume")
+

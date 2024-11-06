@@ -1,0 +1,13 @@
+
+---
+name: luna_pinyin
+version: "2024-10-24"
+import_tables:
+  - dicts/8105
+  - dicts/luna_pinyin
+  - dicts/base
+  - dicts/41448
+  - dicts/ext
+  - dicts/others
+  - dicts/tencent
+...

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# 获取当前内核调度方案
+scheduler=$(cat /sys/block/sda/queue/scheduler | tr ' ' '\n' | grep -E '^[^\[]+')
+
+# 输出结果
+echo "当前内核调度方案: $scheduler"
+

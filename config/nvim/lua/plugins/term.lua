@@ -1,0 +1,5 @@
+MiniDeps.add({ source = "nyngwang/NeoTerm.lua" })
+require("neo-term").setup()
+vim.keymap.set("n", "<leader>t", function()
+	vim.cmd("NeoTermToggle")
+end)
